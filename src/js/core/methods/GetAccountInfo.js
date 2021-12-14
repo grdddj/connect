@@ -33,7 +33,7 @@ export default class GetAccountInfo extends AbstractMethod {
 
     discovery: Discovery | typeof undefined = undefined;
 
-    derivationType: ?CardanoDerivationType;
+    derivationType: CardanoDerivationType;
 
     constructor(message: CoreMessage) {
         super(message);

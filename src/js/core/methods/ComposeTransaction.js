@@ -37,6 +37,8 @@ import type {
     PrecomposeParams,
     PrecomposedTransaction,
 } from '../../types/account';
+import type { CardanoDerivationType } from '../../types/trezor/protobuf';
+import { Enum_CardanoDerivationType } from '../../types/trezor/protobuf';
 
 type Params = {
     outputs: ComposeOutput[],
@@ -54,6 +56,8 @@ export default class ComposeTransaction extends AbstractMethod {
     params: Params;
 
     discovery: Discovery | typeof undefined;
+
+    derivationType: CardanoDerivationType;
 
     constructor(message: CoreMessage) {
         super(message);
@@ -127,6 +131,11 @@ export default class ComposeTransaction extends AbstractMethod {
             skipPermutation: payload.skipPermutation,
             push: typeof payload.push === 'boolean' ? payload.push : false,
         };
+
+        this.derivationType =
+            typeof payload.derivationType !== 'undefined'
+                ? payload.derivationType
+                : Enum_CardanoDerivationType.ICARUS_TREZOR;
     }
 
     async precompose(
@@ -237,6 +246,7 @@ export default class ComposeTransaction extends AbstractMethod {
             new Discovery({
                 blockchain,
                 commands: this.device.getCommands(),
+                derivationType: this.derivationType,
             });
         this.discovery = discovery;
 

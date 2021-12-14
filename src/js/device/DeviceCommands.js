@@ -630,7 +630,7 @@ export default class DeviceCommands {
     async getAccountDescriptor(
         coinInfo: CoinInfo,
         indexOrPath: number | number[],
-        derivationType: ?CardanoDerivationType,
+        derivationType: CardanoDerivationType,
     ): Promise<?{ descriptor: string, legacyXpub?: string, address_n: number[] }> {
         const address_n = Array.isArray(indexOrPath)
             ? indexOrPath
@@ -660,10 +660,7 @@ export default class DeviceCommands {
         if (coinInfo.shortcut === 'ADA' || coinInfo.shortcut === 'tADA') {
             const { message } = await this.typedCall('CardanoGetPublicKey', 'CardanoPublicKey', {
                 address_n,
-                derivation_type:
-                    typeof derivationType === 'number'
-                        ? derivationType
-                        : PROTO.Enum_CardanoDerivationType.ICARUS_TREZOR,
+                derivation_type: derivationType,
             });
             return {
                 descriptor: message.xpub,

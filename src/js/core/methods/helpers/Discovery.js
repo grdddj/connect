@@ -23,7 +23,7 @@ type DiscoveryOptions = {
     blockchain: Blockchain,
     commands: DeviceCommands,
     limit?: number,
-    derivationType?: ?CardanoDerivationType,
+    derivationType: CardanoDerivationType,
 };
 
 export default class Discovery extends EventEmitter {
@@ -45,7 +45,7 @@ export default class Discovery extends EventEmitter {
 
     completed: boolean;
 
-    derivationType: ?CardanoDerivationType;
+    derivationType: CardanoDerivationType;
 
     constructor(options: DiscoveryOptions) {
         super();
